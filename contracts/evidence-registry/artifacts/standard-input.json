@@ -1,0 +1,25 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "EvidenceRegistry.sol": {
+      "content": "// SPDX-License-Identifier: Apache-2.0\r\n// Copyright 2026 Aunatron Systems Limited\r\npragma solidity 0.8.36;\r\n\r\n/// @notice Opaque receipt commitments only. No assets, tokens, documents or execution rights.\r\ncontract EvidenceRegistry {\r\n    enum Status { Missing, Active, Withdrawn, Superseded }\r\n    struct Entry {\r\n        bytes32 digest;\r\n        address publisher;\r\n        uint64 validUntil;\r\n        uint64 anchoredAt;\r\n        Status status;\r\n        bytes32 supersededBy;\r\n    }\r\n    address public owner;\r\n    address public proposedOwner;\r\n    mapping(address => bool) public publishers;\r\n    mapping(bytes32 => Entry) public entries;\r\n    error Unauthorized();\r\n    error InvalidCommitment();\r\n    error InvalidState();\r\n    error InvalidExpiry();\r\n    event PublisherChanged(address indexed publisher, bool allowed);\r\n    event OwnershipProposed(address indexed proposed);\r\n    event OwnershipAccepted(address indexed previous, address indexed current);\r\n    event Anchored(bytes32 indexed receiptRef, bytes32 digest, address indexed publisher, uint64 validUntil);\r\n    event Withdrawn(bytes32 indexed receiptRef);\r\n    event Superseded(bytes32 indexed receiptRef, bytes32 indexed replacement);\r\n\r\n    constructor() {\r\n        owner = msg.sender;\r\n        publishers[msg.sender] = true;\r\n        emit PublisherChanged(msg.sender, true);\r\n    }\r\n    modifier onlyOwner() { if (msg.sender != owner) revert Unauthorized(); _; }\r\n    function setPublisher(address publisher, bool allowed) external onlyOwner {\r\n        if (publisher == address(0)) revert InvalidCommitment();\r\n        publishers[publisher] = allowed;\r\n        emit PublisherChanged(publisher, allowed);\r\n    }\r\n    function proposeOwner(address next) external onlyOwner {\r\n        if (next == address(0) || next == owner) revert InvalidCommitment();\r\n        proposedOwner = next;\r\n        emit OwnershipProposed(next);\r\n    }\r\n    function acceptOwnership() external {\r\n        if (msg.sender != proposedOwner) revert Unauthorized();\r\n        address previous = owner;\r\n        owner = msg.sender;\r\n        proposedOwner = address(0);\r\n        emit OwnershipAccepted(previous, msg.sender);\r\n    }\r\n    function anchor(bytes32 receiptRef, bytes32 digest, uint64 validUntil) external {\r\n        if (!publishers[msg.sender]) revert Unauthorized();\r\n        if (receiptRef == bytes32(0) || digest == bytes32(0)) revert InvalidCommitment();\r\n        Entry storage previous = entries[receiptRef];\r\n        if (previous.status != Status.Missing) {\r\n            if (previous.publisher == msg.sender && previous.digest == digest && previous.validUntil == validUntil && previous.status == Status.Active) return;\r\n            revert InvalidState();\r\n        }\r\n        if (validUntil <= block.timestamp || validUntil > block.timestamp + 1 days) revert InvalidExpiry();\r\n        entries[receiptRef] = Entry(digest, msg.sender, validUntil, uint64(block.timestamp), Status.Active, bytes32(0));\r\n        emit Anchored(receiptRef, digest, msg.sender, validUntil);\r\n    }\r\n    function withdraw(bytes32 receiptRef) external {\r\n        Entry storage entry = entries[receiptRef];\r\n        if (entry.publisher != msg.sender) revert Unauthorized();\r\n        if (entry.status == Status.Withdrawn) return;\r\n        if (entry.status != Status.Active) revert InvalidState();\r\n        entry.status = Status.Withdrawn;\r\n        emit Withdrawn(receiptRef);\r\n    }\r\n    function supersede(bytes32 receiptRef, bytes32 replacement) external {\r\n        Entry storage entry = entries[receiptRef];\r\n        Entry storage next = entries[replacement];\r\n        if (entry.publisher != msg.sender || next.publisher != msg.sender) revert Unauthorized();\r\n        if (receiptRef == replacement || entry.status != Status.Active || next.status != Status.Active || next.validUntil <= block.timestamp) revert InvalidState();\r\n        entry.status = Status.Superseded;\r\n        entry.supersededBy = replacement;\r\n        emit Superseded(receiptRef, replacement);\r\n    }\r\n}\r\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode.object",
+          "evm.deployedBytecode.object",
+          "metadata"
+        ]
+      }
+    }
+  }
+}

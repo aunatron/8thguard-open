@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  receipt-verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Run receipt verifier tests
+        working-directory: packages/receipt-verifier
+        run: node --test verifier.test.mjs
+
+  network-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install and run offline network observation tests
+        working-directory: packages/network-evidence
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+          pytest tests
+          python -m py_compile examples/vet402_join_verify.py
+
+  evidence-registry-compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Compile Solidity contract cleanly
+        working-directory: contracts/evidence-registry
+        run: |
+          npm ci --ignore-scripts
+          npm run compile
+
+  benchmark-json-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate CC-BY-4.0 benchmark JSON files
+        run: |
+          python -c "import glob, json; files = sorted(glob.glob('benchmarks/field-notes/*.json')); assert files; [json.load(open(f, encoding='utf-8')) for f in files]; print(f'Validated {len(files)} benchmark JSON files')"
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

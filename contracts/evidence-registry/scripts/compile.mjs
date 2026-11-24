@@ -1,0 +1,14 @@
+import {readFile,mkdir,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import solc from 'solc';
+const source=await readFile(new URL('../src/EvidenceRegistry.sol',import.meta.url),'utf8');
+const input={language:'Solidity',sources:{'EvidenceRegistry.sol':{content:source}},settings:{optimizer:{enabled:true,runs:200},evmVersion:'paris',outputSelection:{'*':{'*':['abi','evm.bytecode.object','evm.deployedBytecode.object','metadata']}}}};
+const result=JSON.parse(solc.compile(JSON.stringify(input)));
+const failures=(result.errors||[]).filter(e=>e.severity==='error');
+if(failures.length)throw new Error(failures.map(e=>e.formattedMessage).join('\n'));
+const contract=result.contracts['EvidenceRegistry.sol'].EvidenceRegistry;
+await mkdir(new URL('../artifacts/',import.meta.url),{recursive:true});
+const artifact={contractName:'EvidenceRegistry',compiler:solc.version(),evmVersion:'paris',sourceSha256:createHash('sha256').update(source).digest('hex'),abi:contract.abi,bytecode:'0x'+contract.evm.bytecode.object,deployedBytecode:'0x'+contract.evm.deployedBytecode.object};
+await writeFile(new URL('../artifacts/EvidenceRegistry.json',import.meta.url),JSON.stringify(artifact,null,2)+'\n');
+await writeFile(new URL('../artifacts/standard-input.json',import.meta.url),JSON.stringify(input,null,2)+'\n');
+console.log(JSON.stringify({compiled:artifact.contractName,compiler:artifact.compiler,evmVersion:artifact.evmVersion,sourceSha256:artifact.sourceSha256}));

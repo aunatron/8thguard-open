@@ -1,0 +1,19 @@
+{
+  "name": "@8thguard/evidence-registry",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "scripts": {
+    "compile": "node scripts/compile.mjs",
+    "chain": "anvil --host 127.0.0.1 --port 8549 --chain-id 51 --silent",
+    "test": "node --test test/registry.test.mjs",
+    "prepare": "node scripts/operator.mjs prepare"
+  },
+  "devDependencies": {
+    "@foundry-rs/anvil": "1.7.1",
+    "solc": "0.8.36",
+    "viem": "2.58.1"
+  },
+  "overrides": {
+    "tmp": "0.2.7"
+  }
+}

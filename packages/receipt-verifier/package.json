@@ -1,0 +1,8 @@
+{
+  "name": "@8thguard/receipt-verifier",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": "./index.mjs",
+  "scripts": {"test": "node --test verifier.test.mjs", "verify": "node cli.mjs"}
+}

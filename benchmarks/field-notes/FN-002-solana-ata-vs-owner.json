@@ -1,0 +1,31 @@
+{
+  "schema": "8thguard-field-note.1",
+  "id": "FN-002",
+  "license": "CC-BY-4.0",
+  "synthetic": true,
+  "title": "Cross-Chain Payer Reconciliation: EVM Transfer Sender vs Solana SPL Associated Token Account",
+  "corridor": "global-x402-multichain",
+  "category": "account_model_mismatch",
+  "records": [
+    {
+      "record_id": "EVM-SYN-01",
+      "caip2_network": "eip155:8453",
+      "reported_payer": "0x0000000000000000000000000000000000000001",
+      "onchain_transfer_from": "0x0000000000000000000000000000000000000001",
+      "direct_string_equality_valid": true
+    },
+    {
+      "record_id": "SOL-SYN-01",
+      "caip2_network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
+      "reported_payer_wallet_authority": "SynthWalletAuthority11111111111111111111111",
+      "onchain_spl_source_token_account": "SynthSplAssociatedTokenAccount1111111111111",
+      "direct_string_equality_valid": false
+    }
+  ],
+  "common_agent_failure": "Agent compares reported Solana wallet authority directly against the raw SPL transferChecked source token account (ATA) and falsely flags a valid settled payment as a payer mismatch.",
+  "expected_disposition": "resolve_owner_to_ata_mapping_before_comparison",
+  "required_unknowns_preserved": [
+    "An SPL transfer source is a token account rather than the wallet authority; owner resolution is required before asserting payer identity."
+  ],
+  "published_at": "2026-11-24T00:00:00Z"
+}

@@ -1,0 +1,20 @@
+[project]
+name = "eighthguard-network-evidence"
+version = "0.1.0"
+description = "Read-only EVM, Solana, and Stellar transaction observations with explicit coverage"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.12,<3.13"
+dependencies = ["httpx>=0.28,<1", "base58>=2.1,<3", "stellar-sdk>=14,<15"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9", "pytest-asyncio>=0.24,<2"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/eighthguard_networks"]

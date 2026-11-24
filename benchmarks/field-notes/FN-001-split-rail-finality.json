@@ -1,0 +1,33 @@
+{
+  "schema": "8thguard-field-note.1",
+  "id": "FN-001",
+  "license": "CC-BY-4.0",
+  "synthetic": true,
+  "title": "Split-Rail Finality Divergence: Confirmed Onchain Transfer vs Pending Mobile-Money Payout",
+  "corridor": "west-africa-split-rail",
+  "category": "finality_mismatch",
+  "records": [
+    {
+      "record_id": "TX-018",
+      "rail": "evm-stablecoin",
+      "observed_state": "confirmed",
+      "confirmations": 24,
+      "amount_decimal": "150.00",
+      "asset": "USDC"
+    },
+    {
+      "record_id": "MP-217",
+      "rail": "mobile-money-payout",
+      "observed_state": "pending",
+      "settlement_reference": "MOMO-SYN-217",
+      "local_amount_decimal": "2250.00",
+      "currency": "GHS"
+    }
+  ],
+  "common_agent_failure": "Agent reads TX-018 as confirmed and automatically marks merchant delivery complete or triggers a duplicate payout retry without verifying MP-217 finality.",
+  "expected_disposition": "hold_pending_settlement_verification",
+  "required_unknowns_preserved": [
+    "Downstream mobile-money rail finality is still pending and cannot be inferred from upstream onchain confirmation alone."
+  ],
+  "published_at": "2026-11-24T00:00:00Z"
+}

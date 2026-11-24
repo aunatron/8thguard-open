@@ -1,0 +1,20 @@
+Creative Commons Attribution 4.0 International (CC-BY-4.0)
+
+Copyright 2026 Aunatron Systems Limited
+
+All synthetic benchmark fixtures, emerging-market Field Notes, and open dataset
+files located under the `benchmarks/` directory in this repository are licensed
+under the Creative Commons Attribution 4.0 International License (CC-BY-4.0).
+
+Full license text:
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+Summary of terms:
+- You are free to share (copy and redistribute) and adapt (remix, transform,
+  and build upon) the dataset materials for any purpose, including commercially,
+  provided you give appropriate credit to Aunatron Systems Limited / 8thGuard
+  and indicate if changes were made.
+- Per Section 2(b)(2) of the CC-BY-4.0 Legal Code, patent and trademark rights
+  are NOT licensed under this Creative Commons Public License.
+- All software source code in `packages/` and `contracts/` is separately
+  licensed under the Apache License, Version 2.0 (see `LICENSE`).
