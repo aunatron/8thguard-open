@@ -2,6 +2,11 @@
 
 All notable changes to the 8thGuard Open Verification Toolkit are documented here.
 
+## [Unreleased]
+
+### Added
+* `contracts/evidence-registry`: Added allowlisted `--network celo-mainnet` (chain `42220`, `https://forno.celo.org`) support to `scripts/operator.mjs` alongside default `xdc-apothem` (chain `51`), added zero-PII synthetic benchmark anchoring helper `scripts/celo-demo-deploy.mjs`, and added self-contained local Anvil chain `42220` end-to-end tests (`npm run test:celo`).
+
 ## [0.1.1] - 2026-11-25
 
 ### Added

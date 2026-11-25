@@ -6,6 +6,7 @@
     "compile": "node scripts/compile.mjs",
     "chain": "anvil --host 127.0.0.1 --port 8549 --chain-id 51 --silent",
     "test": "node --test test/registry.test.mjs",
+    "test:celo": "node --test test/operator-celo.test.mjs",
     "prepare": "node scripts/operator.mjs prepare"
   },
   "devDependencies": {
