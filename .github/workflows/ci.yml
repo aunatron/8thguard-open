@@ -33,7 +33,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e ".[dev]"
           pytest tests
-          python -m py_compile examples/vet402_join_verify.py
+          python -m py_compile examples/vet402_join_verify.py examples/erc3643_rwa_inspect.py
 
   evidence-registry-compile:
     runs-on: ubuntu-latest

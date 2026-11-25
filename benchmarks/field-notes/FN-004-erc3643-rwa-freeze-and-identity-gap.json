@@ -1,0 +1,29 @@
+{
+  "schema": "8thguard-field-note.1",
+  "id": "FN-004",
+  "license": "CC-BY-4.0",
+  "synthetic": true,
+  "title": "ERC-3643 Tokenised RWA Freeze & Unverified Recipient Blind Spot",
+  "corridor": "global-institutional-rwa",
+  "category": "rwa_transfer_restriction",
+  "records": [
+    {
+      "record_id": "RWA-TOK-004",
+      "rail": "evm-erc3643",
+      "network": "base-mainnet",
+      "observed_state": {
+        "erc20_balance_positive": true,
+        "paused": false,
+        "identity_registry_present": true,
+        "recipient_is_verified": false,
+        "sender_frozen_tokens_base_units": "500000"
+      }
+    }
+  ],
+  "common_agent_failure": "Agent inspects only standard ERC-20 balanceOf() and assumes a tokenised treasury or bond transfer will settle, ignoring ERC-3643 partial token freezes and ONCHAINID recipient eligibility checks that revert onchain or violate issuer transfer rules.",
+  "expected_disposition": "block_pending_identity_and_issuer_review",
+  "required_unknowns_preserved": [
+    "Onchain ERC-3643 selectors do not establish off-chain issuer solvency, custody backing, legal redemption rights, or jurisdictional licensing."
+  ],
+  "published_at": "2026-11-25T00:00:00Z"
+}

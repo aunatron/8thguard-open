@@ -2,6 +2,14 @@
 
 All notable changes to the 8thGuard Open Verification Toolkit are documented here.
 
+## [0.1.1] - 2026-11-25
+
+### Added
+* `packages/network-evidence`: Read-only `ERC-3643` (T-REX) tokenised real-world asset (RWA) preflight inspector (`inspect_erc3643` + `ERC3643_SELECTORS`) checking chain ID, contract bytecode, pause status, `ONCHAINID` identity registry, compliance module, holder freeze status, partial frozen balances, and recipient verification with explicit unknowns and deterministic offline mocked-RPC unit tests (`tests/test_rwa_erc3643.py`).
+* `packages/network-evidence/examples/erc3643_rwa_inspect.py`: Standalone CLI example for read-only ERC-3643 RWA token inspection across configured EVM networks (including Base, Celo, Ethereum, and XDC).
+* `benchmarks/field-notes/FN-004-erc3643-rwa-freeze-and-identity-gap.json`: Synthetic CC-BY-4.0 benchmark fixture documenting ERC-3643 freeze and recipient identity blind spots.
+* `CODE_OF_CONDUCT.md` and Digital Public Good alignment documentation (SDG 4/9/16, platform independence, privacy boundaries, and verifiable DPC Ghana Privacy Seal reference).
+
 ## [0.1.0] - 2026-11-24
 
 ### Added

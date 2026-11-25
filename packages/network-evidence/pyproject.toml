@@ -1,7 +1,7 @@
 [project]
 name = "eighthguard-network-evidence"
-version = "0.1.0"
-description = "Read-only EVM, Solana, and Stellar transaction observations with explicit coverage"
+version = "0.1.1"
+description = "Read-only EVM, Solana, Stellar, and ERC-3643 RWA observations with explicit coverage"
 license = { text = "Apache-2.0" }
 requires-python = ">=3.12,<3.13"
 dependencies = ["httpx>=0.28,<1", "base58>=2.1,<3", "stellar-sdk>=14,<15"]

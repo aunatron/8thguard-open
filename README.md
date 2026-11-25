@@ -12,14 +12,14 @@ Public extraction of **8thGuard**'s standalone verification packages, read-only 
 
 ---
 
-## Packages Included (`v0.1.0`)
+## Packages Included (`v0.1.1`)
 
 | Path | License | What It Does |
 | :--- | :--- | :--- |
 | `packages/receipt-verifier` | `Apache-2.0` | Zero-dependency Node 24 / Web Crypto verifier for canonical JSON `Ed25519` Agent Evidence Receipts, keeping content integrity, expiry, live revocation, and coverage strictly separate. |
-| `packages/network-evidence` | `Apache-2.0` | Bounded, read-only transaction observers across 14 network configurations (Ethereum, Base, Arbitrum, Optimism, Polygon, Avalanche C-Chain, Celo, BNB Chain, XDC Mainnet/Apothem, Solana Mainnet/Devnet, Stellar Mainnet/Testnet) with explicit unknowns and exact decimal strings. Includes `examples/vet402_join_verify.py` for HTTP 402 settled-4xx cross-chain reconciliation. |
+| `packages/network-evidence` | `Apache-2.0` | Bounded, read-only transaction observers across 14 network configurations (Ethereum, Base, Arbitrum, Optimism, Polygon, Avalanche C-Chain, Celo, BNB Chain, XDC Mainnet/Apothem, Solana Mainnet/Devnet, Stellar Mainnet/Testnet) with explicit unknowns, exact decimal strings, a read-only `ERC-3643` RWA preflight inspector (`inspect_erc3643` + `examples/erc3643_rwa_inspect.py`), and `examples/vet402_join_verify.py` for HTTP 402 settled-4xx reconciliation. |
 | `contracts/evidence-registry` | `Apache-2.0` | Solidity `0.8.36` opaque SHA-256 receipt commitment and expiry registry with two-step ownership transfer and local Anvil tests. |
-| `benchmarks/field-notes` | `CC-BY-4.0` | Synthetic, privacy-safe cross-market failure fixtures (split-rail finality divergence, Solana wallet authority vs. SPL ATA mapping, OWASP ASI06 shared-origin illusion). |
+| `benchmarks/field-notes` | `CC-BY-4.0` | Synthetic, privacy-safe cross-market failure fixtures (split-rail finality divergence, Solana wallet authority vs. SPL ATA mapping, OWASP ASI06 shared-origin illusion, and ERC-3643 RWA freeze/eligibility gaps). |
 
 ---
 
@@ -47,6 +47,14 @@ npm ci --ignore-scripts
 npm run compile
 ```
 To run the full local EVM lifecycle test suite, start `npm run chain` in one terminal and run `npm test` in a second terminal.
+
+---
+
+## Digital Public Good Alignment & Do-No-Harm Design
+
+* **SDG Alignment:** Supports **UN SDG 16** (accountable financial evidence and anti-fraud transparency), **SDG 9** (safe, interoperable digital public infrastructure), and **SDG 4** (open emerging-market verification literacy via synthetic Field Notes).
+* **Platform Independence & Data Portability:** All verifiers, observers, and fixtures run 100% offline or against standard public JSON-RPC endpoints with zero proprietary cloud lock-in and standard JSON exports.
+* **Privacy & Community Safeguards:** Zero personal data is stored or written onchain. Aunatron Systems Limited maintains active Data Controller registration under Ghana's Data Protection Act, 2012 (Act 843), verifiable via the [DPC Ghana Privacy Seal (`DPC-PSVS-2026-00207`)](https://app.dpc.gov.gh/s/DPC-PSVS-2026-00207). Community participation follows our [Code of Conduct](CODE_OF_CONDUCT.md) and [Security Policy](SECURITY.md).
 
 ---
 
