@@ -42,12 +42,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
-      - name: Compile Solidity contract cleanly and run Celo chain 42220 simulation test
+      - name: Compile Solidity contract cleanly and run Celo (42220) and Base (8453) simulation tests
         working-directory: contracts/evidence-registry
         run: |
           npm ci --ignore-scripts
           npm run compile
           npm run test:celo
+          npm run test:base
 
   benchmark-json-check:
     runs-on: ubuntu-latest

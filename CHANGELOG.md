@@ -5,7 +5,7 @@ All notable changes to the 8thGuard Open Verification Toolkit are documented her
 ## [Unreleased]
 
 ### Added
-* `contracts/evidence-registry`: Added allowlisted `--network celo-mainnet` (chain `42220`, `https://forno.celo.org`) support to `scripts/operator.mjs` alongside default `xdc-apothem` (chain `51`), added zero-PII synthetic benchmark anchoring helper `scripts/celo-demo-deploy.mjs`, and added self-contained local Anvil chain `42220` end-to-end tests (`npm run test:celo`).
+* `contracts/evidence-registry`: Added allowlisted `--network celo-mainnet` (chain `42220`, `https://forno.celo.org`) and `--network base-mainnet` (chain `8453`, `https://mainnet.base.org`) support plus optional ERC-8021 Schema 0 Builder Code data-suffix attribution (`scripts/erc8021.mjs`, `--builder-code`) to `scripts/operator.mjs` alongside default `xdc-apothem` (chain `51`), added zero-PII synthetic benchmark anchoring helpers `scripts/celo-demo-deploy.mjs` and `scripts/base-demo-deploy.mjs`, and added self-contained local Anvil chain `42220` and `8453` end-to-end tests (`npm run test:celo`, `npm run test:base`).
 
 ## [0.1.1] - 2026-11-25
 
